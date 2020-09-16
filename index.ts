@@ -3,6 +3,8 @@ import axios from "axios";
 
 cosmicSync("pipedrive-slack");
 
+const api = axios.create({ baseURL: config<string>("pipedriveBaseUrl") });
+
 /** Send a message to a Slack channel */
 export const sendSlackMessage = async (channel: string, text: string) =>
   axios.post(
@@ -13,26 +15,13 @@ export const sendSlackMessage = async (channel: string, text: string) =>
     },
     {
       headers: {
-        Authorization: `Bearer ${config("slackBotAccessToken")}`,
+        Authorization: `Bearer ${config<string>("slackBotAccessToken")}`,
       },
     }
   );
 
-const data: Array<[string, string, string]> = [
-  ["C01AALHGMFV", "day after tomorrow, September 18", "Monday, September 21"],
-  ["C01AP42DYF3", "day after tomorrow, September 18", "Monday, September 21"],
-  ["C019M6YHJ3D", "Saturday, September 19", "Tuesday, September 22"],
-  ["C01931TD1P1", "Tuesday, September 22", "Thursday, September 24"],
-  ["C01ACAPEMMH", "Saturday, September 26", "Tuesday, September 29"],
-  ["C019X1MF1DL", "Tuesday, September 29", "Sunday, October 4"],
-];
-const send = async () => {
-  for await (const item of data) {
-    await sendSlackMessage(
-      item[0],
-      `Quick reminder, the deadline for this concept's briefing is *${item[1]}*, including decor and composition. The deadline for final renders is ${item[2]}.`
-    );
-    console.log("Sent message to", item[0]);
-  }
+export const getLead = async (id: string) => {
+  return (
+    await api.get(`/deals/${id}?api_token=${config<string>("pipedriveApiKey")}`)
+  ).data as any;
 };
-send();
