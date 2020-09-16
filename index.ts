@@ -8,7 +8,7 @@ export const sendSlackMessage = async (channel: string, text: string) =>
   axios.post(
     "https://slack.com/api/chat.postMessage",
     {
-      channel: "C016A9X32KG",
+      channel,
       text,
     },
     {
