@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/koj-co/pipedrive-slack#readme",
   "dependencies": {
-    "@anandchowdhary/cosmic": "^1.0.1"
+    "@anandchowdhary/cosmic": "^1.0.1",
+    "axios": "^0.20.0"
   }
 }
